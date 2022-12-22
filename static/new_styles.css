@@ -1,0 +1,68 @@
+body {
+    background-color: grey;
+}
+
+#playing {
+    display: flex;
+    justify-content: left;
+    gap: 2em;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 0 1em;
+    background-color: #333;
+    color: white;
+    position: sticky;
+    top: 5px;
+}
+
+#main-bar {
+    flex-basis: 65%;
+
+    
+}
+
+#search-box {
+    display: flex;
+    justify-content: right;
+    gap: 2em;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 0.5em 1em;
+    background-color: #333;
+    color: white;
+    margin-top: 2em;
+
+}
+
+#main-page {
+    display: flex;
+    align-items: flex-start;
+    gap: 2em;
+}
+
+.stathmoi-light-border {
+    display: flex;
+    justify-content: left;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 0.5em 1em;
+    background-color: #333;
+    color: white;
+    margin-top: 2em;
+    flex-grow: 1;
+    max-width: 30%;
+}
+
+#songs {
+    margin-top: 1em;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 0.5em 1em;
+    background-color: #333;
+    color: white;
+} 
+
+
+
+
+

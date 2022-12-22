@@ -1,0 +1,194 @@
+body {
+    background-color: black;
+}
+
+.top-space {
+    margin-left:5%;
+    margin-right: 5%;
+    display: flex;
+    height:4em;
+    border-radius: 10px;
+    background-color: #282828;
+    justify-content: center;
+    gap: 7em;
+    align-items: center;
+}
+
+#home-icon {
+    position: sticky;
+}
+
+.station-search input {
+    display: flex;
+    height: 2em;
+    font-weight: 25em;
+    width: 23em;
+}
+
+.station-search {
+    display: flex;
+    gap: 0.5em;
+}
+
+#search-icon {
+    background: none;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+}
+
+#radio-icon {
+    position:sticky;
+    background: none;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+.items {
+    display: flex;
+    justify-content: space-between;
+    margin: 5%;
+}
+
+.left-div {
+    flex-basis:60%;
+    border-radius:10px;
+    background-color: #282828;
+    padding-left: 3em;
+    border-width: 4px;
+}
+.left-div form {
+    display: flex;
+    gap: 0.5em;
+}
+.search {
+    position: relative;
+    display: inherit;
+    padding-top: 1.5em;
+    gap: 1.5%;
+}
+
+.items input {
+    width: 90%;
+}
+
+#next-to-play{
+    color: white;
+}
+
+#theText {
+    color: white;
+}
+
+.playlist-song {
+    display: flex;
+    align-items: center;
+    margin-right: 3em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: 1em solid #1ed760;
+    background-color: #1ed760;
+    border-radius: 10px;
+}
+
+.play-button-playlist {
+    background: none;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+    position: absolute;
+    right:42%;
+}
+
+.stations {
+    text-align: center;
+    border-radius: 10px;
+    padding: 1em;
+    background-color: #282828;
+    border-width: 4px;
+    width: 30%;
+}
+
+#most-listened-stations-txt {
+    position: absolute;
+    margin-top: 0.5em;
+    margin-left: 0.5em;
+    color: white;
+}
+
+.individual-station {
+    margin: 2em;
+    border: 1em solid #1ed760;
+    background-color: #1ed760;
+    border-radius: 10px;
+}
+
+.change-station-button{
+    background: none; 
+	border: none;
+	font: inherit;
+	cursor: pointer;
+    width: -webkit-fill-available;
+    height: 2em;
+}
+
+.active-song {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    height: 4em;
+    border-radius: 10px;
+    background-color: rgb(16 90 43);
+    justify-content: center;
+    gap: 6em;
+    align-items: center;
+    width: 65%;
+    margin: auto;
+}
+
+#play-button-song {
+    background: none;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+.active-song a {
+    color: white;
+    font-size: larger;
+}
+
+#search-results {
+    position: absolute;
+    visibility: none;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid #1ed760;
+    color: #1ed760;
+    max-width: fit-content;
+    align-items: left;
+    justify-content: center;
+}
+
+.search-result-element {
+    display: flex;
+    padding: 5px 1em;
+    gap: 3em;
+}
+
+.search-result-element > img {
+    /* flex-basis: 10%; */
+    width: 15%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    aspect-ratio: 16 / 9;
+}

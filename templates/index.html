@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/styles.css"></link>
+
+    <script src="static/script.js" defer></script>
+    
+    <title>radio</title>
+    
+</head>
+<body>
+    <div>
+        <ul class="top-space">
+            <a href="https://microlabaigialeia.wixsite.com/microlab/epikoinonia">
+                <img src="static/home-com.svg" alt="MICROLAB" width="38px" id="home-icon">
+            </a>
+            
+            <div class="station-search">
+                <input type="text" placeholder="Search a radio station by it's name...">
+                <button id="search-icon">
+                    <img src="static/searchcom.svg" alt="SEARCH" width="20px">
+                </button>
+            </div>
+
+            <button id="radio-icon">
+                <img src="static/radio-com.svg" alt="RADIO" width="40px" id="radio">
+            </button>
+        </ul>
+    </div>
+
+    <div class="items">
+        <div class="left-div">
+            <div class="search">
+                <form id="song-form" method="post" action="addsong">
+                    <input type="text" name="url" id="searchbar" placeholder="Enter a youtube link for the song you want to listen...">
+                    <button type="sumbit" id="search-icon">
+                        <img src="static/searchcom.svg" alt="SEARCH" width="20px">
+                    </button>
+                </form>
+                <div id="search-results"></div>
+            </div>
+            <br>
+            <div class="text-playlist">
+                <div id="next-to-play">Next song on the list:</div>
+
+
+                <div id="playlist">
+                </div>
+            </div>
+        </div>
+        <div class="stations"s>
+            <div id="most-listened-stations-txt">Your most listen radio stations:</div>
+            <div class="individual-station">
+                <button class="change-station-button">
+                    <a>pepper</a>
+                </button>
+            </div>
+            <div class="individual-station">
+                <button class="change-station-button">
+                    <a>kiss</a>
+                </button>
+            </div>
+            <div class="individual-station">
+                <button class="change-station-button">
+                    <a>red</a>
+                </button>
+            </div>
+            <div class="individual-station">
+                <button class="change-station-button">
+                    <a>skylo</a>
+                </button>
+            </div>
+            <div class="individual-station">
+                <button class="change-station-button">
+                    <a>picaso</a>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="active-song">
+        <button id="play-button-song">
+            <img src="static/play-com.svg" alt="PLAY" width="35px" id="play">
+        </button>
+        <a id="songPlaying"></a>
+    </div>
+
+    </body>
+</html>
