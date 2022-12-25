@@ -136,6 +136,7 @@ body {
 	cursor: pointer;
     width: -webkit-fill-available;
     height: 2em;
+    text-align: center;
 }
 
 .active-song {
@@ -145,14 +146,16 @@ body {
     height: 4em;
     border-radius: 10px;
     background-color: rgb(16 90 43);
-    justify-content: center;
-    gap: 6em;
+    justify-content: left;
+    gap: 1em;
     align-items: center;
     width: 65%;
     margin: auto;
+    padding: 0 3em;
+    box-sizing: border-box;
 }
 
-#play-button-song {
+.player-buttons {
     background: none;
 	border: none;
 	padding: 0;
@@ -177,12 +180,17 @@ body {
     max-width: fit-content;
     align-items: left;
     justify-content: center;
+    z-index: 99;
 }
 
 .search-result-element {
     display: flex;
     padding: 5px 1em;
     gap: 3em;
+}
+
+.search-result-element:hover {
+    background-color: #555;
 }
 
 .search-result-element > img {

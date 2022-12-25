@@ -4,11 +4,11 @@ import youtubesearchpython as yts
 @dataclass
 class SongData:
 
-    yt_id: str
     yt_title: str
     yt_link: str
-    yt_thumbnail_link: str
-    yt_duration: str
+    yt_id: str = ""
+    yt_thumbnail_link: str = ""
+    yt_duration: str = ""
 
     @classmethod
     def fromDict(cls, dct_data):

@@ -1,8 +1,8 @@
 import subprocess
-import time
+import os
 import threading
-import constants
 from song_data import SongData
+import yt_dlp
 
 class Singleton(type):
     _instances = {}
@@ -14,14 +14,28 @@ class Singleton(type):
 class PlayerController(metaclass=Singleton):
 
     def __init__(self):
-        print("instanciating")
         self.semaphore = threading.Semaphore(0)
         self.__player_queue = []
-        self.events = []
         self.now_playing = None
         self.current_state = "STANDBY"
         self.controller_thread = None
+        self.last_played_radio = None
         self.player_proc = None
+        self.qlock = threading.Lock()
+        self.download_thread = None
+
+        self.pipe_name = '.audiopipe'
+
+        try:
+            os.mkfifo(self.pipe_name)
+        except FileExistsError:
+            print("audiopipe already exists")
+
+        ytdl_opts = {
+            'format': 'm4a/bestaudio/best', #bestaudio',m4a/bestaudio/best
+            'outtmpl': self.pipe_name
+        }
+        self.ydl = yt_dlp.YoutubeDL(ytdl_opts)
 
 
     def start(self):
@@ -31,96 +45,92 @@ class PlayerController(metaclass=Singleton):
         self.controller_thread = threading.Thread(target=self.controller)
         self.controller_thread.start()
 
-    def stop(self):
+    def kill(self):
         if self.controller_thread is None:
             return
 
-        self.command((constants.KILL,))
+        self.current_state == "KILL"
+        self.kill_players()
         self.controller_thread.join()
 
-    def command(self, comd):
-        (cmd, *cmd_args) = comd
-        if cmd == constants.NEXT_SONG or cmd == constants.PLAY_SONG:
-            song = SongData.fromIDorURL(cmd_args[0])
-            if song is not None:
-                self.__player_queue.append(song)
-                if len(self.__player_queue) == 1:
-                    self.__add_event((constants.PLAY_SONG,))
 
-        elif cmd == constants.KILL or cmd == constants.STOP and self.player_thread is not None:
-            self.__add_event((constants.KILL, ))
-        # self.__player_queue.append(msg)
-        # self.semaphore.release()
+    def stop_playback(self):
+        self.current_state = "STOPPED"
+        self.kill_players()
 
     def get_playlist(self):
-        return {"now_playing": self.now_playing,
+        return {"current_state": self.current_state,
+                "now_playing": self.now_playing,
                 "playlist": self.__player_queue}
 
-    def __add_event(self, evt):
-        print("adding event:", evt)
-        self.events.append(evt)
+    def next_song(self):
+        self.current_state = "PLAYLIST"
+        self.kill_players()
+
+    def add_playlist_song(self, song):
+        self.__player_queue.append(song)
+        if self.current_state != "PLAYLIST":
+            self.next_song()
+
+    def start_downlaod_thread(self, link):
+        self.download_thread = threading.Thread(target=self.ydl.download, args=([link],))
+        self.download_thread.start()
+
+    def play_radio(self, radio_song):
+        self.current_state = "RADIO"
+        self.selected_radio = radio_song
+        self.last_played_radio = radio_song
+        self.kill_players()
+
+
+    def kill_players(self):
+        subprocess.Popen(["killall", "mpv"]).wait()
         self.semaphore.release()
+
 
     def play_song(self, song):
         print("NOW PLAYING:", song)
-        self.current_state = "PLAYLIST"
         self.now_playing = song
         try:
-            self.player_proc = subprocess.Popen(['mpv', '--no-video', song.yt_link])
-            # player_proc = subprocess.Popen(['sleep', '10'])
+            if self.current_state == "RADIO":
+                self.player_proc = subprocess.Popen(['mpv', '--no-video', song.yt_link])
+            else:
+                self.player_proc = subprocess.Popen(['mpv', '-cache=yes', '--no-video', self.pipe_name])
+                self.start_downlaod_thread(song.yt_link)
+
             self.player_proc.wait()
         except InterruptedError:
-            print("Player thread got interupted")
-            player_proc.kill()
+            self.player_proc.kill()
 
-        self.player_proc = None
+        if self.download_thread is not None and self.download_thread.isAlive():
+            self.download_thread.join()
+            self.download_thread = None
 
-        self.current_state = "STANDBY"
         self.now_playing = None
-        self.__add_event((constants.SONG_ENDED,))
-        print("SONG ENDED:", song)
+        self.semaphore.release()
+
 
     def controller(self):
         print("player THREAD STARTED")
         while True:
-            print("waiting for events")
             self.semaphore.acquire()
-            (cmd, *cmd_args) = self.events.pop(0)
-            print("got:", cmd, cmd_args)
+            next_song = None
 
-            if cmd == constants.KILL:
+            if self.current_state == "KILL":
                 break
-            elif (cmd == constants.NEXT_SONG or cmd == constants.PLAY_SONG) and \
-                len(self.__player_queue) > 0 and self.current_state != "PLAYLIST":
-                self.player_thread = threading.Thread(target=self.play_song, args=(self.__player_queue.pop(0),))
-                self.player_thread.start()
-            elif cmd == constants.STOP and self.player_proc is not None:
-                self.player_proc.kill()
+            if self.current_state == "PLAYLIST":
+                if len(self.__player_queue) > 0:
+                    next_song = self.__player_queue.pop(0)
+                else:
+                    # fallback to last played radio
+                    self.current_state = "RADIO"
+                    next_song = self.last_played_radio
+
+            elif self.current_state == "RADIO":
+                next_song = self.selected_radio
 
 
-
-def main():
-    queue = ["test1", "test2"]
-
-    controller = PlayerController()
-    controller.start()
-
-    while True:
-        song = input("Enter song (empty to stop): ")
-        if song == "":
-            break
-
-        controller.command((constants.PLAY_SONG, song))
-        # queue_lock.acquire()
-        # queue.append(song)
-        # print("ADDED! Q:", queue)
-        # queue_lock.release()
-
-    # player_thread.join()
-    controller.stop()
-
-if __name__ == "__main__":
-    main()
-
-
-
+            if next_song:
+                self.play_song(next_song)
+            else:
+                self.current_state = "STOPPED"
