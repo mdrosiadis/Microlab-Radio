@@ -16,7 +16,6 @@ radios = {
 def get_player():
     if 'player' not in g:
         g.player = PlayerController()
-        g.player.start()
 
     return g.player
 
@@ -86,12 +85,9 @@ def search_youtube():
 
 if __name__ == "__main__":
     try:
-        # player = PlayerController()
-        # player.start()
         app.run(host='0.0.0.0')
     except KeyboardInterrupt:
         print("SERVER CLOSING")
     finally:
-        PlayerController().kill_players()
         PlayerController().kill()
 

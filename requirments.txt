@@ -1,0 +1,6 @@
+yt-dlp
+python-mpv-jsonipc
+youtube-search-python
+flask
+
+
