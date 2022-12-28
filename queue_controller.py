@@ -62,6 +62,10 @@ class PlayerController(metaclass=Singleton):
         self.__player_queue.append(song)
         if self.current_state != State.PLAYLIST:
             self.set_state(State.PLAYLIST)
+            
+    
+    def next_song(self):
+        self.set_state(State.PLAYLIST)
 
 
     def start_downlaod_thread(self, link):
