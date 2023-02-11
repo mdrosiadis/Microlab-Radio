@@ -220,10 +220,14 @@ body {
         width: 100%;
         justify-content: space-between;
         box-sizing: border-box; 
+        flex-wrap: wrap;
     }
     .individual-station {
         display: inline;
         margin: 0;
+        margin-bottom: 0.5em;
+        box-sizing: border-box;
+        min-width: 40%;
     }
     #most-listened-stations-txt {
         display: none;
@@ -236,5 +240,19 @@ body {
     .active-song {
         width: 100%;
         left: 0;
+    }
+    .search-result-element > img {
+        width: 35%;
+    }
+    .search-result-element {
+        align-items: center;
+    }
+    .search-result-element h4 {
+        margin: 1px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* number of lines to show */
+        -webkit-box-orient: vertical;
     }
 }
