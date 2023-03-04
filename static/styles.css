@@ -255,4 +255,15 @@ body {
         -webkit-line-clamp: 2; /* number of lines to show */
         -webkit-box-orient: vertical;
     }
+    .playlist-song {
+        margin-right: 0;
+        justify-content: space-between;
+        padding: 0 0.2em;
+        border: 0.5em solid #1ed760;
+    }
+    .play-button-playlist {
+        position: inherit;
+    }
 }
+
+
