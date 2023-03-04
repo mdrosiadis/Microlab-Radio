@@ -23,7 +23,11 @@ function addPlaylistSong(pSong) {
 
     const newPlaylistSong = document.createElement('div');
     newPlaylistSong.classList.add("playlist-song")
-    newPlaylistSong.innerText = pSong["yt_title"];
+    // newPlaylistSong.innerText = pSong["yt_title"];
+    const songSpan = document.createElement('span');
+    songSpan.innerText = pSong["yt_title"];
+    newPlaylistSong.appendChild(songSpan);
+
 
     const playlist_song_button = document.createElement("button");
     playlist_song_button.classList.add("play-button-playlist");
